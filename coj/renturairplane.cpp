@@ -1,82 +1,66 @@
 #include <algorithm>
-#include <functional>
 #include <vector>
 #include <stdlib.h>
 #include <cstring>
 #include <stdio.h>
+using namespace std;
+struct Order{
+	int inicio;
+	int fin;
+	int precio;
+};
 
-#define LINEAL
-
-typedef struct _order{
-	int s;
-	int d;
-	int p;
-	
-
-}Order;
-
-int solucion[10001];
+long long int m[10001][10001];
 int n;
 int t;
 
 bool lessFunction(Order a, Order b){
-	return a.s < b.s;
+	return a.inicio < b.inicio;
 }
 
-int nextOrder(std::vector<Order>& orders, int currentOrder){
-	int nO = -1;
-	int i, j;
-	int fin = orders[currentOrder].s + orders[currentOrder].d;
-	#ifdef LINEAL
-	for(i = currentOrder + 1;i < orders.size() && nO < 0; i++){
-		if(fin < orders[i].s){
-			nO = i;
-		}
-	}
-	#else
-	i = currentOrder + 1;
-	j = orders.size() ;
-	while(i <= j){
-		int middle = (i + j) / 2;
-		if(orders[middle].s >= fin){
-			j = middle-1;
-			nO = middle;
-		} else {
-			i = middle+1;
-		}
-	}
-	#endif
-	return nO;
+int nextOrder(vector<Order>& orders, int i){
+	int fin = orders[i].fin;
+	while(orders[i].inicio < fin)
+		i++;
+	return i;
 }
 
-int resolver(std::vector<Order>& orders, int i){
-	if(i >= n)
+long long int resolver(vector<Order>& orders, int last){
+	if(last >= n)
 		return 0;
-	if(solucion[i] > -1)
-		return solucion[i];
-	solucion[i] = resolver(orders, i + 1);
-	solucion[i] = std::max(solucion[i], resolver(orders, nextOrder(orders, i)) + orders[i].p);
-	return solucion[i];
+	int next = last +1; //= nextOrder(orders,last);
+	printf("%d:%d %d:%d\n", last, orders[last].fin, next, orders[next].inicio);
+	if(orders[last].fin <= orders[next].inicio){
+			return max(	resolver(orders, next),
+						resolver(orders, next) + orders[last].precio);
+	}
+	return resolver(orders, next);
 }
 
 int main(){
 	int i;
+	int fin;
 	scanf("%d", &t);
 	for(;t > 0; t--){
+		
 		scanf("%d", &n);
-		Order *orders = (Order *)malloc(sizeof(Order) * n);
+		vector<Order> orderVector;
 		for(i = 0;i < n; i++){
-			scanf("%d",&(orders[i].s));
-			scanf("%d",&(orders[i].d));
-			scanf("%d",&(orders[i].p));
-			
+			Order o;
+			scanf("%d",&(o.inicio));
+			scanf("%d",&fin);
+			o.fin = fin + o.inicio;
+			scanf("%d",&(o.precio));
+			orderVector.push_back(o);
 		}
-		std::vector<Order> orderVector(orders, orders + n);
-		std::sort(orderVector.begin(), orderVector.end(), lessFunction);
-		memset(solucion,-1,10001);
-		int price = resolver(orderVector, 0);
-		printf("%d\n",price);
-		free(orders);
+		sort(orderVector.begin(), orderVector.end(), lessFunction);
+		long long int price = resolver(orderVector, 0);
+		printf("%lld\n",price);
 	}
 	return 0;
 }
+
+
+
+
+
