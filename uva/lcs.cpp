@@ -13,18 +13,18 @@ int lcs(int pa, int pb){
 		return 0;
 	if(m[pa][pb] != -1)
 		return m[pa][pb];
-	if(a[pa] == b[pb])
-		return m[pa][pb] = lcs(pa+1,pb+1) + 1;
-	else
+	if(a[pa] != b[pb])
 		return m[pa][pb] = max(lcs(pa,pb+1) , lcs(pa+1,pb) );
+	else
+		return m[pa][pb] = /*max(*/ lcs(pa+1,pb+1) + 1;/*, max(lcs(pa,pb+1) , lcs(pa+1,pb) ));*/
 }
 
 int main(){
 	while(scanf("%s", a) != EOF){
+		scanf("%s",b);
 		for(int i = 0; i < MAXW; ++i)
 			for(int j = 0; j < MAXW; ++j)
 				m[i][j] = -1;
-		scanf("%s",b);
 		la = strlen(a);
 		lb = strlen(b);
 		printf("%d\n",lcs(0,0));
