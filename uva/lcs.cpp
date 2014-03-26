@@ -13,25 +13,22 @@ int lcs(int pa, int pb){
 		return 0;
 	if(m[pa][pb] != -1)
 		return m[pa][pb];
-	//printf("%c == %c | %d == %d\n",a[pa],b[pb],a[pa] ,b[pb]);
 	if(a[pa] != b[pb])
 		return m[pa][pb] = max(lcs(pa,pb+1) , lcs(pa+1,pb) );
-	else
-		return m[pa][pb] = /*max(*/ lcs(pa+1,pb+1) + 1;/*, max(lcs(pa,pb+1) , lcs(pa+1,pb) ));*/
+	else{
+		return m[pa][pb] = lcs(pa+1,pb+1) + 1;
+	}
 }
 
 int main(){
-	while(fgets(a,MAXW,stdin) != NULL ){
-	fflush(stdin);
+	while(fgets(a,MAXW,stdin) != NULL){
 	fgets(b,MAXW,stdin);
-	fflush(stdin);
 		la = strlen(a);
 		lb = strlen(b);
-		a[la-1] = '\0';
-		b[lb-1] = '\0';
-		
-		printf("%d\n%d\n\n",la,lb);
-	//while(scanf("%s", a) != EOF && scanf("%s",b) != EOF){
+		la-=1;
+		lb-=1;
+		a[la] = '\0';
+		b[lb] = '\0';
 		for(int i = 0; i < MAXW; ++i)
 			for(int j = 0; j < MAXW; ++j)
 				m[i][j] = -1;
