@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <cstring>
 #include <algorithm>
-#define MAXW 1005
+#define MAXW 1010
 using namespace std;
 int m[MAXW][MAXW];
 char a[MAXW];
@@ -13,6 +13,7 @@ int lcs(int pa, int pb){
 		return 0;
 	if(m[pa][pb] != -1)
 		return m[pa][pb];
+	//printf("%c == %c | %d == %d\n",a[pa],b[pb],a[pa] ,b[pb]);
 	if(a[pa] != b[pb])
 		return m[pa][pb] = max(lcs(pa,pb+1) , lcs(pa+1,pb) );
 	else
@@ -20,13 +21,20 @@ int lcs(int pa, int pb){
 }
 
 int main(){
-	while(scanf("%s", a) != EOF){
-		scanf("%s",b);
+	while(fgets(a,MAXW,stdin) != NULL ){
+	fflush(stdin);
+	fgets(b,MAXW,stdin);
+	fflush(stdin);
+		la = strlen(a);
+		lb = strlen(b);
+		a[la-1] = '\0';
+		b[lb-1] = '\0';
+		
+		printf("%d\n%d\n\n",la,lb);
+	//while(scanf("%s", a) != EOF && scanf("%s",b) != EOF){
 		for(int i = 0; i < MAXW; ++i)
 			for(int j = 0; j < MAXW; ++j)
 				m[i][j] = -1;
-		la = strlen(a);
-		lb = strlen(b);
 		printf("%d\n",lcs(0,0));
 	}
 	return 0;

@@ -36,7 +36,7 @@ int main(){
 				visita[ix][jx] = 0;
 		primero ? 0 : printf("\n");
 		primero = false;
-        while(fgets(mapa[lin],MAX,stdin) != NULL){ 
+		while(fgets(mapa[lin],MAX,stdin) != NULL){ 
 			int len = strlen(mapa[lin]);
 			if(len == 1) break;
 			mapa[lin][len-1] = '\0';
