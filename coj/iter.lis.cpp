@@ -2,36 +2,33 @@
 #include <algorithm>
 using namespace std;
 int l[1001];
-int m[1002][1002];
+int m[1001][1001];
 int N;
-int lis(int u, int i){
-        if(i == N+1)
-                return 0;
-		if(m[u][i] != -1)
-			return m[u][i];
-        if(l[u] < l[i]){
-                return m[u][i] = max(lis(i,i+1) + 1, lis(u,i+1));
-        }
-        return m[u][i] = lis(u,i+1);
-}
 int main(){
 		int T;
 		scanf("%d",&T);
 		while(T--){
-			scanf("%d",&N);
-			for(int i = N-1; i >= 0; i++){
-				for(int u = 0; i < N; i++){
+		
+			for(int i = 0; i < N+1; i++)
+				for(int j = 0; j < N+1; j++)
+					m[i][j] = 0;
 					
+					
+			scanf("%d",&N);
+			for(int i = 0; i < N; i++){
+				scanf("%d",&l[i]);
+			}
+			for(int i = N-1; i >= 0; i--){
+				for(int u = N-1; u >= 0; u--){
+					if(l[u] < l[i]){
+						m[u][i] =  max(m[i][i+1] + 1, m[u][i+1]);
+					}
+					else{
+						m[u][i] = m[u][i+1];
+					}
 				}
 			}
-			l[0] = -1;
-			for(int i = 0; i < 1002; i++)
-				for(int j = 0; j < 1002; j++)
-					m[i][j] = -1;
-			for(int i = 1; i < N+1; i++){
-					scanf("%d",&l[i]);
-			}
-			printf("%d\n",lis(0,1));
+			printf("%d\n",m[0][0]);
 		}
         return 0;
 }
