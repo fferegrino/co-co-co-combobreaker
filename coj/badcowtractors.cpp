@@ -1,12 +1,11 @@
 #include <cstdio>
 #include <vector>
 #include <algorithm>
-#define MAXM 20000
 #define MAXN 1002
 using namespace std;
 int root(int n);
 bool join(int n01, int n02);
-int M,N,C;
+int M,N;
 int padres[MAXN];
 struct cable{
 	int a,b,c;
@@ -18,6 +17,8 @@ struct cable{
 vector<cable> cables;
 
 int main(){
+	long long int costo = 0;
+	int nodos = 0;
 	scanf("%d%d",&N,&M);
 	for(int i = 0; i <= N; i++){
 		padres[i] = i;
@@ -29,29 +30,26 @@ int main(){
 	}
 	sort(cables.begin(),cables.end());
 	for(int i = 0; i < M; i++){
-		printf("Juntando %d con %d\n",cables[i].a,cables[i].b);
-		
 		if(join(cables[i].a,cables[i].b)){
-			//printf("%d\n", cables[i].c);
+			nodos++;
+			costo += cables[i].c;
 		}
-		printf("Padres:\n");
-		for(int i = 0; i <= N; i++){
-			printf("%d ",padres[i]);
-		}
-		printf("\n");
 	}
+	if(nodos == N-1){
+		printf("%lld\n",costo);
+	}
+	else
+		printf("-1\n");
 	return 0;
 }
 
 int root(int n){
-	if(padres[n] != n){
-		padres[n] = root(n);
-	}
+	if(padres[n] != n)
+		padres[n] = root(padres[n]);
 	return padres[n];
 }
 
 bool join(int n01, int n02){
-	printf("Join: %d %d\n",n01,n02);
 	int p1 = root(n01);
 	int p2 = root(n02);
 	if(p1 != p2){
@@ -60,4 +58,3 @@ bool join(int n01, int n02){
 	}
 	return false;
 }
-
