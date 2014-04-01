@@ -30,23 +30,28 @@ int main(){
 	sort(cables.begin(),cables.end());
 	for(int i = 0; i < M; i++){
 		printf("Juntando %d con %d\n",cables[i].a,cables[i].b);
+		
 		if(join(cables[i].a,cables[i].b)){
-			printf("%d\n", cables[i].c);
+			//printf("%d\n", cables[i].c);
 		}
+		printf("Padres:\n");
+		for(int i = 0; i <= N; i++){
+			printf("%d ",padres[i]);
+		}
+		printf("\n");
 	}
 	return 0;
 }
 
 int root(int n){
-	int padre = 0;
 	if(padres[n] != n){
 		padres[n] = root(n);
 	}
-	padre = padres[n];
-	return padre;
+	return padres[n];
 }
 
 bool join(int n01, int n02){
+	printf("Join: %d %d\n",n01,n02);
 	int p1 = root(n01);
 	int p2 = root(n02);
 	if(p1 != p2){
