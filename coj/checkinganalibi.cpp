@@ -75,6 +75,7 @@ void dj(){
 			if(!visita[ac.vecinos[i].id]){
 				if(d[ac.id] + ac.vecinos[i].t < d[ac.vecinos[i].id]){
 					d[ac.vecinos[i].id] = d[ac.id] + ac.vecinos[i].t;
+					ac.vecinos[i].t = d[ac.vecinos[i].id]; // <= FIXXXXXXXXXXXX
 					Q.push(ac.vecinos[i]);
 				}
 			}
