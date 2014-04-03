@@ -18,7 +18,6 @@ int root(string n){
 		p++;
 	}else{
 		if(padres[mapa[n]] != mapa[n]){
-			//cout << n << " " << padres[mapa[n]] << endl;
 			padres[mapa[n]] = root(n);
 		}
 		padre = padres[mapa[n]];
@@ -51,12 +50,6 @@ int main(){
 		while(	F--){
 			cin >> n1 >> n2;
 			cout << join(n1,n2) << endl;
-			//join(n1,n2);
-			/*
-			for(int i = 0; i < padres.size(); i++)
-				cout << padres[i]  << " ";
-			cout << endl;
-			*/
 		}
 	}
 	return 0;
