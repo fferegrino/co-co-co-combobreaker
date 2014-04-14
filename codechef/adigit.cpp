@@ -3,7 +3,7 @@
 #define MAXS 100005 
 using namespace std;
 char s[MAXS];
-int mem[10][MAXS];
+int mem[MAXS];
 int n = 0, m = 0, q = 0;
 int calcb(int step){
 	int b2 = 0, b1 = 0;
@@ -11,12 +11,12 @@ int calcb(int step){
 	for(int i = step-1; i >= 0; i--){
 		t = (s[step] - '0') - (s[i] - '0');
 		if(t == 0){
-			b2 += mem[s[step] - '0'][i];
-			mem[s[step] - '0'][step] = b2;
+			b2 += mem[i];
+			mem[step] = b2;
 			break;
 		}
 		b2 += abs(t);
-		mem[s[step] - '0'][step] = b2;
+		mem[step] = b2;
 	}
 	return b2;
 }
