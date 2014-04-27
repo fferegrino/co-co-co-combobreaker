@@ -76,5 +76,9 @@ $RECYCLE.BIN/
 *~
 
 ### Test ###
-.test
+*_post.*
+*datagen*
+*.test
+*.csv
+*.txt
 *test*
