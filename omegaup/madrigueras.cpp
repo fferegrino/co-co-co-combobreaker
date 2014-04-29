@@ -7,7 +7,7 @@
 using namespace std;
 int p[MAX];
 pair<int,int> rec[MAX];
-bool pasada[MAX];
+bool contado[MAX];
 int root(int n){
 		if(p[n] != n) 
 			p[n] = root(p[n]);
@@ -16,11 +16,11 @@ int root(int n){
 int join(int i, int j){
 	int pi = root(i);
 	int pj = root(j);
-	rec[pi].aristas += 1;
+	aux[pi].aristas += 1;
 	if(pi != pj){
 		p[pj] = p[pi];
-		rec[pi].nodos += rec[pj].nodos;
-		rec[pi].aristas += rec[pj].aristas;
+		aux[pi].nodos += aux[pj].nodos;
+		aux[pi].aristas += aux[pj].aristas;
 	}	
 	return 0;
 }
@@ -30,8 +30,8 @@ int main(){
 	scanf("%d%d",&N,&M);
 	for(int i = 0; i <= N; i++){
 		p[i] = i;
-		rec[i].nodos = 1;
-		rec[i].aristas = 0;
+		aux[i].nodos = 1;
+		aux[i].aristas = 0;
 	}
 	for(int i = 0; i < M; i++){
 		scanf("%d%d",&a,&b);
@@ -41,15 +41,15 @@ int main(){
 	int P= 0,  j = 1;
 	while(j <= N){
 		P = root(p[j]);
-		if(rec[P].aristas == rec[P].nodos){
-			if(!pasada[P]){
-				pasada[P] = true;
+		if(aux[P].aristas == aux[P].nodos){
+			if(!contado[P]){
+				contado[P] = true;
 				res = ((res % MOD) * 2) % MOD;
 			}
-		}else if(rec[P].aristas == rec[P].nodos -1 ){
-			if(!pasada[P]){
-				pasada[P] = true;
-				res = ((res % MOD )* (rec[P].nodos % MOD)) % MOD;
+		}else if(aux[P].aristas == aux[P].nodos -1 ){
+			if(!contado[P]){
+				contado[P] = true;
+				res = ((res % MOD )* (aux[P].nodos % MOD)) % MOD;
 			}
 		}else{
 			res = 0; break;
