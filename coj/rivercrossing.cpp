@@ -4,27 +4,36 @@
 int mem[MAX][MAX];
 int pre[MAX];
 int N, M;
-/*
+
 int dp(int pack, int total){
-	//printf("\t%d %d\n", pack, total);
 	if(total == N){
-		return -pre[0];
+		return -pre[0];	
 	}
-	if(total > N){
-		return 1 << 28;
-	}
-	int mx = 1 << 28;
-	if(mem[pack][total] != -1){
+	if(mem[pack][total] !=  1 << 28){
 		return mem[pack][total];
 	}
-	for(int i = pack+1; i <= N - total; i++){
-		int dpp = dp(i, total + i) + pre[i] + pre[0];
-		mx = std::min(mx, dpp);
+	if(pack + total < N){
+		return mem[pack][total] = std::min(dp(1,total+pack) + pre[pack] + pre[0], dp(pack+1,total));
+	} else {
+		return mem[pack][total] = dp(1,total+pack) + pre[pack] + pre[0];
 	}
-	return mem[pack][total] = mx;
-	return mx;
 }
-*/
+
+int it(){
+	for(int i = 0; i <= N; i++){
+		mem[i][N] = -pre[0];
+	}
+	for(int total = N - 1; total >= 0; total--){
+		for(int pack = N; pack > 0; pack--){			
+			if(pack + total < N){
+				mem[pack][total] = std::min(mem[1][total+pack] + pre[pack] + pre[0], mem[pack+1][total]);
+			} else {
+				mem[pack][total] = mem[1][total+pack] + pre[pack] + pre[0];
+			}
+		}
+	}
+}
+
 int main(){
 	scanf("%d%d",&N,&pre[0]);
 	for(int i = 0; i <= N; i++){
@@ -36,35 +45,7 @@ int main(){
 		scanf("%d",&pre[i]);
 		pre[i] += pre[i-1];
 	}
-	for(int i = 0; i <= N+1; i++){
-		mem[i][N] = -pre[0];
-	}
-	
-	for(int total = N-1; total >= 0; total--){
-		for(int pack = 0; pack < N ; pack++){
-		
-			
-			for(int i = pack+1; i <= N - total; i++){
-				mem[pack][total] = std::min(mem[pack][total], mem[i][total + i] + pre[i] + pre[0]);
-			}
-			
-			/*
-			int i = pack +1;
-			mem[pack][total] = std::min(mem[pack][total], mem[i][total + i] + pre[i] + pre[0]);
-			*/
-		}
-	}
-	for(int i = 0; i < N; i++){
-		printf("%d ",pre[i]);
-	}
-	
-	printf("\n");
-	for(int i = 0; i < N; i++){
-		for(int j = 0; j < N; j++){
-			printf("%10d " , mem[i][j]);
-		}
-		printf("\n");
-	}
-	printf("%d\n", mem[0][0]);
+	it();
+	printf("%d\n",mem[1][0]);
 	return 0;
 }
