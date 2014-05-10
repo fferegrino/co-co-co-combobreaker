@@ -82,3 +82,5 @@ $RECYCLE.BIN/
 *.csv
 *.txt
 *test*
+*.in
+*.out
