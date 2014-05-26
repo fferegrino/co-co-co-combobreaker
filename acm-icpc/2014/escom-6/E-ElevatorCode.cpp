@@ -13,6 +13,8 @@ struct Seg{
 		return s * v;
 	}
 };
+
+
 bool cmp1(const Seg& a, const Seg& b)
 {
 	return (a.s == b.s) ? a.d > b.d : a.s > b.s;
@@ -70,7 +72,7 @@ int main(){
 		int ii = 0;
 		int ix = 0;
 		n = sg[0].d;
-		while(n){
+		while(n && sg[0].s > 0){
 			for(ix = 0; sg[ix].d == n && ix <= p; ix++){
 				if(sg[ix].s < 0) { break; }
 				sg[ix].d--;
@@ -98,6 +100,7 @@ int main(){
 			res += sg[i].val();
 		}
 		printf("%d\n", res);
+		fflush(stdin);
 	}
 	return 0;
 }
