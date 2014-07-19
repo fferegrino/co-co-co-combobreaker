@@ -1,49 +1,49 @@
 #include <cstdio>
 #include <algorithm>
 #include <utility>
-#define lugar second
-#define distancia first
+#define place second
+#define distance first
 #define NN 100002
 
-typedef std::pair<int,int> rana;
-rana ranas[NN];
-int padres[NN];
+typedef std::pair<int,int> frog;
+frog frogs[NN];
+int roots[NN];
 int N, K, P;
 
 int root(int n){
-	if(padres[n] != n)
-		padres[n] = root(padres[n]);
-	return padres[n];
+	if(roots[n] != n)
+		roots[n] = root(roots[n]);
+	return roots[n];
 }
 
 bool join(int a, int b){
 	int p1 = root(a);
 	int p2 = root(b);
 	if(p1 != p2){
-		padres[p1] = padres[p2];
+		roots[p1] = roots[p2];
 		return true;
 	}
 	return false;
 }
 
-bool operator <(const rana& l,const rana& r){
-	return l.distancia < r.distancia;
+bool operator <(const frog& l,const frog& r){
+	return l.distance < r.distance;
 }
 
 int main(){
 	int a, b;
 	scanf("%d%d%d", &N, &K, &P);
-	for(int i = 1; i <= N; i++){
-		padres[i] = i;
-		scanf("%d", &ranas[i].distancia);
-		ranas[i].lugar = i;
+for(int i = 1; i <= N; i++){
+	roots[i] = i;
+	scanf("%d", &frogs[i].distance);
+	frogs[i].place = i;
+}
+std::sort(frogs+1, frogs+N+1);
+for(int i = 1; i < N; i++){
+	if(frogs[i + 1].distance - frogs[i].distance <= K){
+		join(frogs[i + 1].place, frogs[i].place);
 	}
-	std::sort(ranas+1, ranas+N+1);
-	for(int i = 1; i < N; i++){
-		if(ranas[i + 1].distancia - ranas[i].distancia <= K){
-			join(ranas[i + 1].lugar, ranas[i].lugar);
-		}
-	}
+}
 	for(int i = 0; i < P; i++){
 			scanf("%d%d", &a, &b);
 			root(a) == root(b) ? printf("Yes\n") : printf("No\n");
