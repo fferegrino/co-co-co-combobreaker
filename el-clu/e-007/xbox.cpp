@@ -10,9 +10,9 @@ int main(){
 	for(int i = 1; i < N; i++){
 		if(end < 0)
 			end = points[i];
-        	else
-            		end += points[i];
-        	if( end >= mx ) mx  = end;
+		else
+			end += points[i];
+		if( end >= mx ) mx  = end;
 	}
    printf("%d\n", mx);
 }
